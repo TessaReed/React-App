@@ -5,6 +5,8 @@ const bodyParser = require('body-parser');
 const server = express();
 
 
+
+
 //Movies Router/ controller
 const moviesRouter = require('./routes/movies');
 
