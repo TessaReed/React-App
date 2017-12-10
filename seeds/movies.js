@@ -7,8 +7,8 @@ Movie.create([
     lead: "Gal Gordan"
   },
   {
-    title: "Wonder Woman",
-    yearReleased: 2017,
-    lead: "Gal Gordan"
+    title: "Into the Wild",
+    yearReleased: 2007,
+    lead: "Emile Hirsch"
   },
 ]);

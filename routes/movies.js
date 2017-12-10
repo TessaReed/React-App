@@ -16,6 +16,7 @@ router.get('/', (req, res) => {
 });
 
 //the api now has a subdocument & relationship document
+//subdocument are not shared and related are shared.
 
 
 router.post('/', (req, res) => {
@@ -40,14 +41,6 @@ router.post('/', (req, res) => {
 //when you do a create you create a resource/model & you get a redirect
 //reason being have data, submit form & gets created, so you do a redirect somewhere else so doesnt create again
 
-
-
-// Movie.create({ title: 'small', yearReleased: 2017, lead: 'hello' }, function (err, small) {
-//   if (err) return handleError(err);
-//   // saved!
-// })
-//this is the resolve function look at docs of find in mongoose.
-//READ about find in mongoose
 
 module.exports = router;
 

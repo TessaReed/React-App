@@ -1,10 +1,24 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+//axios allows you to talk to api
+const axios = require('axios');
+
+
+//create server for api to talk to
+const pokapi = axios.create({
+  baseURL: 'http://pokeapi.co/api/v2/'
+});
+
+
 
 //create the server
 const server = express();
 
-
+const moviestest = [
+  {
+    title: "Mad Max"
+  },
+];
 
 
 //Movies Router/ controller
@@ -16,9 +30,43 @@ server.use(bodyParser.urlencoded());
 
 server.use('/movies', moviesRouter);
 
+const middleware = {
+    getDataFromMockAPI: function(req, res, next){
+      return pokapi.get('contest-type/1')
+      .then(response => {
+      console.log(response.data.name);
+    })
+    .catch(err => {
+      console.log("erro in pokeapi request: ",err);
+    })
+      next();
+    },
+
+    logger: function(req, res, next){
+     console.log(new Date(), req.method, req.originalUrl,
+     req.body);
+     next();
+  }
+}
+
+//movies API function
+
+function getAllMovies() {
+  console.log("Mock API processing request data response");
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(Object.assign([],moviestest));
+    }, 3000);
+  }).then((promiserequest) => {console.log("yay!" + JSON.stringify(promiserequest))});
+};
+
+
 //server get root
-server.get('/', (req,res) => {
-  res.status(404).end();
+server.get('/', [
+              middleware.getDataFromMockAPI,
+              middleware.logger,
+            ], function (req,res){
+  res.status(200).end();
 });
 
 //you need to render
