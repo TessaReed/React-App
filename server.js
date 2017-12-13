@@ -2,14 +2,12 @@ const express = require('express');
 const bodyParser = require('body-parser');
 //axios allows you to talk to api
 const axios = require('axios');
-
+const authMiddleware = require('./middleware/auth')
 
 //create server for api to talk to
 const pokapi = axios.create({
   baseURL: 'http://pokeapi.co/api/v2/'
 });
-
-
 
 //create the server
 const server = express();
@@ -28,7 +26,17 @@ server.use(bodyParser.json());
 server.use(bodyParser.urlencoded());
 //look at bodyparser documentation
 
+//mounting route for authMiddleware
+server.use('/auth', require('./routes/auth'));
+
 server.use('/movies', moviesRouter);
+
+//tell express that you are using cookies
+server.use(require('cookie-parser')());
+server.use(authMiddleware.initialize);
+server.use(require('express-session')(
+  { secret: 'secret', resave: false, saveUninitialized: false}
+));
 
 const middleware = {
     getDataFromMockAPI: function(req, res, next){

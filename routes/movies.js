@@ -1,9 +1,19 @@
 const express = require('express');
 const Movie = require('../models/movie');
 const Person = require('../models/person');
-
 const router = express.Router();
 
+const authorize = (req, res) => {
+  if (req.user) {
+      next();
+  } else {
+    res.status(403).end();
+  }
+}
+
+
+// router.get('/', authorize (req, res) => {
+// include authorize in the get request if you want to authorize
 
 router.get('/', (req, res) => {
   Movie.find()
